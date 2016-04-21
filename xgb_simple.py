@@ -14,7 +14,7 @@ def get_params():
     return plst
 
 
-xgb_num_rounds = 100
+xgb_num_rounds = 10
 
 train = pd.read_csv("data/train.csv") # the train dataset is now a Pandas DataFrame
 test = pd.read_csv("data/test.csv") # the train dataset is now a Pandas DataFrame
