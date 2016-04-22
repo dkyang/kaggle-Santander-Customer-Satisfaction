@@ -8,6 +8,7 @@ def get_params():
     params = {}
     params["objective"] = "binary:logistic"
     params["eta"] = 0.5
+    params["eval_meric"] = 'auc'
     params["min_child_weight"] = 1
     params["subsample"] = 0.9
     params["colsample_bytree"] = 0.9

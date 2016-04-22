@@ -6,6 +6,7 @@ def get_params():
     params["objective"] = "binary:logistic"
     params["eta"] = 0.5
     params["min_child_weight"] = 1
+    params["eval_meric"] = 'auc'
     params["subsample"] = 0.9
     params["colsample_bytree"] = 0.9
     params["silent"] = 1
@@ -32,11 +33,18 @@ xgtest = xgb.DMatrix(test_feat)
 plst = get_params()
 print(plst)
 model = xgb.train(plst, xgtrain, xgb_num_rounds)
+print model.get_fscore()
+#xgb.plot_importance(model)
 test_preds = model.predict(xgtest, ntree_limit=model.best_iteration)
 
+# feature importance 
+importance = model.get_fscore()
+tuples = [(k, importance[k]) for k in importance]
+tuples = sorted(tuples, key=lambda x: -x[1])
+for k,v in tuples:
+    print '%s\t%d' % (k,v)
 
 preds_out = pd.DataFrame({"ID": test['ID'].values, "TARGET": test_preds})
 preds_out = preds_out.set_index('ID')
 preds_out.to_csv('xgb_simple.csv')
 print 'finish'
-
